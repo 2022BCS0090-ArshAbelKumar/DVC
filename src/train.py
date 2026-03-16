@@ -14,7 +14,7 @@ RESULTS_DIR = ARTIFACT_DIR / "results"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-df = pd.read_csv("winequality-red.csv", sep=";")
+df = pd.read_csv("data/housing.csv", sep=";")
 
 X = df.drop("quality", axis=1)
 y = df["quality"]
