@@ -14,10 +14,14 @@ RESULTS_DIR = ARTIFACT_DIR / "results"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-df = pd.read_csv("data/housing.csv", sep=";")
+df = pd.read_csv("data/housing.csv")
 
-X = df.drop("quality", axis=1)
-y = df["quality"]
+df = df.dropna()
+
+X = df.drop("median_house_value", axis=1)
+y = df["median_house_value"]
+
+X = pd.get_dummies(X)
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
@@ -37,4 +41,4 @@ print("R2:", r2)
 joblib.dump(model, MODEL_DIR / "model.pkl")
 
 with open(RESULTS_DIR / "metrics.json", "w") as f:
-    json.dump({"mse": mse, "r2": r2}, f, indent=4)
+    json.dump({"mse": mse, "r2": r2, "dataset_size": len(df)}, f, indent=4)
